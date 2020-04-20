@@ -1,7 +1,6 @@
-package layout.controller;// A Java program for Bellman-Ford's single source shortest path
+package teste;
+// A Java program for Bellman-Ford's single source shortest path
 // algorithm.
-
-import javax.swing.*;
 
 // A class to represent a connected, directed and weighted graph
 class Graph {
@@ -31,7 +30,7 @@ class Graph {
     // The main function that finds shortest distances from src
     // to all other vertices using Bellman-Ford algorithm. The
     // function also detects negative weight cycle
-    void BellmanFord(Graph graph, int src, JTextArea textArea) {
+    void BellmanFord(Graph graph, int src) {
         int V = graph.V, E = graph.E;
         int dist[] = new int[V];
 
@@ -72,11 +71,11 @@ class Graph {
 //                j=E;
 //            }
 //        }
-        printArr(dist, V, graph,textArea);
+        printArr(dist, V, graph);
     }
 
     // A utility function used to print the solution
-    void printArr(int[] dist, int V, Graph graph, JTextArea textArea) {
+    void printArr(int[] dist, int V, Graph graph) {
         int aux = 0, verify = 0, j = 0, c = 0, fullWeight = 0;
         System.out.println("Vertex Distance from Source");
 //        for (int i = 0; i < V; ++i)
@@ -84,8 +83,6 @@ class Graph {
 
 
         System.out.print("\n\n 0\t");
-        textArea.append("  0");
-
         while (verify != graph.edge[7].dest) {
             if (graph.edge[j].src == verify && graph.edge[j].dest > verify) {
                 if (c == 0 || j == 7) {
@@ -97,7 +94,6 @@ class Graph {
 
             } else if (c != 0) {
                 System.out.print("\t===>\t" + aux);
-                textArea.append("\t===>\t" + aux);
                 fullWeight += graph.edge[j].weight;
                 verify = aux;
                 c = 0;
@@ -107,62 +103,60 @@ class Graph {
                 j++;
             } else {
                 System.out.print("\t===>\t" + aux);
-                textArea.append("\t===>\t" + aux);
                 fullWeight += graph.edge[j].weight;
                 verify = aux;
             }
         }
         System.out.printf("\n\n\npeso: " + fullWeight);
-        textArea.append("\n\n\npeso: " + fullWeight);
     }
 
-//    // Driver method to test above function
-//    public static void main(String[] args) {
-//        int V = 5; // Number of vertices in graph
-//        int E = 8; // Number of edges in graph
-//
-//        Graph graph = new Graph(V, E);
-//
-//        // add edge 0-1 (or A-B in above figure)
-//        graph.edge[0].src = 0;
-//        graph.edge[0].dest = 1;
-//        graph.edge[0].weight = -1;
-//
-//        // add edge 0-2 (or A-C in above figure)
-//        graph.edge[1].src = 0;
-//        graph.edge[1].dest = 2;
-//        graph.edge[1].weight = 4;
-//
-//        // add edge 1-2 (or B-C in above figure)
-//        graph.edge[2].src = 1;
-//        graph.edge[2].dest = 2;
-//        graph.edge[2].weight = 3;
-//
-//        // add edge 1-3 (or B-D in above figure)
-//        graph.edge[3].src = 1;
-//        graph.edge[3].dest = 3;
-//        graph.edge[3].weight = 2;
-//
-//        // add edge 1-4 (or A-E in above figure)
-//        graph.edge[4].src = 1;
-//        graph.edge[4].dest = 4;
-//        graph.edge[4].weight = 2;
-//
-//        // add edge 3-2 (or D-C in above figure)
-//        graph.edge[5].src = 3;
-//        graph.edge[5].dest = 2;
-//        graph.edge[5].weight = 5;
-//
-//        // add edge 3-1 (or D-B in above figure)
-//        graph.edge[6].src = 2;
-//        graph.edge[6].dest = 3;
-//        graph.edge[6].weight = 1;
-//
-//        // add edge 4-3 (or E-D in above figure)
-//        graph.edge[7].src = 3;
-//        graph.edge[7].dest = 4;
-//        graph.edge[7].weight = -3;
-//
-//        graph.BellmanFord(graph, 0, textArea);
-//    }
+    // Driver method to test above function
+    public static void main(String[] args) {
+        int V = 5; // Number of vertices in graph
+        int E = 8; // Number of edges in graph
+
+        Graph graph = new Graph(V, E);
+
+        // add edge 0-1 (or A-B in above figure)
+        graph.edge[0].src = 0;
+        graph.edge[0].dest = 1;
+        graph.edge[0].weight = -1;
+
+        // add edge 0-2 (or A-C in above figure)
+        graph.edge[1].src = 0;
+        graph.edge[1].dest = 2;
+        graph.edge[1].weight = 4;
+
+        // add edge 1-2 (or B-C in above figure)
+        graph.edge[2].src = 1;
+        graph.edge[2].dest = 2;
+        graph.edge[2].weight = 3;
+
+        // add edge 1-3 (or B-D in above figure)
+        graph.edge[3].src = 1;
+        graph.edge[3].dest = 3;
+        graph.edge[3].weight = 2;
+
+        // add edge 1-4 (or A-E in above figure)
+        graph.edge[4].src = 1;
+        graph.edge[4].dest = 4;
+        graph.edge[4].weight = 2;
+
+        // add edge 3-2 (or D-C in above figure)
+        graph.edge[5].src = 3;
+        graph.edge[5].dest = 2;
+        graph.edge[5].weight = 5;
+
+        // add edge 3-1 (or D-B in above figure)
+        graph.edge[6].src = 2;
+        graph.edge[6].dest = 3;
+        graph.edge[6].weight = 1;
+
+        // add edge 4-3 (or E-D in above figure)
+        graph.edge[7].src = 3;
+        graph.edge[7].dest = 4;
+        graph.edge[7].weight = -3;
+
+        graph.BellmanFord(graph, 0);
+    }
 }

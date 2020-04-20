@@ -68,13 +68,13 @@ public class MainController {
         graph.edge[5].weight = 5;
 
         // add edge 3-1 (or D-B in above figure)
-        graph.edge[6].src = 3;
-        graph.edge[6].dest = 1;
+        graph.edge[6].src = 2;
+        graph.edge[6].dest = 3;
         graph.edge[6].weight = 1;
 
         // add edge 4-3 (or E-D in above figure)
-        graph.edge[7].src = 4;
-        graph.edge[7].dest = 3;
+        graph.edge[7].src = 3;
+        graph.edge[7].dest = 4;
         graph.edge[7].weight = -3;
     }
 
@@ -88,13 +88,9 @@ public class MainController {
             } catch (Exception e) {
                 src = 0;
             }
-            int[] list = graph.BellmanFord(graph, src);
-            textArea.append("Src = " + src + "\n");
-            for (int i = 0; i < V; ++i) {
-                // System.out.println(i + "\t\t" + list[i]);
-                textArea.append(i + "     -     " + list[i] + "\n");
 
-            }
+            textArea.append("Src = " + src + "\n");
+            graph.BellmanFord(graph, src, textArea);
             inputTextSRC.setText("");
 
         }

@@ -9,7 +9,7 @@ public class MainFrame extends JFrame {
     private JTextField inputTextSRC;
 
     public MainFrame() {
-        setSize(300, 400);
+        setSize(650, 500);
         setContentPane(mainFrame);
         setLocationRelativeTo(null);
     }
