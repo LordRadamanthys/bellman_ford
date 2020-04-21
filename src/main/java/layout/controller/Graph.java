@@ -17,7 +17,7 @@ class Graph {
     }
     Edge edge[];
 
-//Classe que busca o menor caminho em um grafo e usa o peso como tomada de decisão
+//Metodo que busca o menor caminho em um grafo e usa o peso como tomada de decisão
     void BellmanFord(Graph graph, int src, JTextArea textArea, int end) {
         int V = graph.V, E = graph.E;
         int dist[] = new int[V];
