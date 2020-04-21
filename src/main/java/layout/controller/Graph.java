@@ -1,24 +1,13 @@
 package layout.controller;
-
+//import permite que voce possa usar um conjunto de outros códigos, presentes em outros locais para desempenhar funções especificas no código
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
-//A Classe abaixo usa a lógica para achar o menor caminho em um grafo se baseando em um peso pré-definido de cada aresta e calcula o peso de cada vértice.
-// A class to represent a connected, directed and weighted graph
+//A classe Relaxa as arestas até encontar a média de peso de cada vértice, além de montar o grafo e verificar se o mesmo possui um caminho com peso total negativo
 class Graph {
-    // A class to represent a weighted edge in graph
-    class Edge {
-        int src, dest, weight;
-
-        Edge() {
-            src = dest = weight = 0;
-        }
-    }
-
+//Cria as variáveis e o array
     int V, E;
-    Edge edge[];
-
-    // Creates a graph with V vertices and E edges
+//Insere o objeto edge em graph
     Graph(int v, int e) {
         V = v;
         E = e;
@@ -26,23 +15,20 @@ class Graph {
         for (int i = 0; i < e; ++i)
             edge[i] = new Edge();
     }
+    Edge edge[];
 
-    // The main function that finds shortest distances from src
-    // to all other vertices using Bellman-Ford algorithm. The
-    // function also detects negative weight cycle
+//Classe que busca o menor caminho em um grafo e usa o peso como tomada de decisão
     void BellmanFord(Graph graph, int src, JTextArea textArea, int end) {
         int V = graph.V, E = graph.E;
         int dist[] = new int[V];
 
-        // Step 1: Initialize distances from src to all other
-        // vertices as INFINITE
+//Loop que inicializao do array com as distancias entres os vertices como sendo infinitas, a posição do array é equivalente ao número do vertice e o valor contido dentro dele corresponde ao peso final do vertice
         for (int i = 0; i < V; ++i)
             dist[i] = Integer.MAX_VALUE;
+//Define o primeiro vertice não infinito.
         dist[src] = 0;
 
-        // Step 2: Relax all edges |V| - 1 times. A simple
-        // shortest path from src to any other vertex can
-        // have at-most |V| - 1 edges
+//Loop que relexa as arestas para verificar o caminho mais curto e com o menor peso entre os vértices, apartir do primeiro vértice não infinito
         for (int i = 1; i < V; ++i) {
             for (int j = 0; j < E; ++j) {
                 int u = graph.edge[j].src;
@@ -54,15 +40,19 @@ class Graph {
                 }
             }
         }
-        printArr(dist, V, graph,textArea, end);
+//Chamando a função que valida o peso total do caminho e o exibe
+        printArr(dist, graph,textArea, end);
     }
 
-    // A utility function used to print the solution
-    void printArr(int[] dist, int V, Graph graph, JTextArea textArea, int end) {
+//Cria a função que valida se o caminho é negativo, e que exibe ocaminho caso ele seja positivo
+    void printArr(int[] dist, Graph graph, JTextArea textArea, int end) {
+//Cria variaveis
         int aux = 0, verify = 0, j = 0, c = 0, fullWeight = 0;
+//Cria uma lista para armazenar os passos dado do ponto inicial até o último vértice (Valor inserido pelo usuário)
         List way = new ArrayList<>();
-
+//Loop que busca um canho enquanto a variavel de verificação tiver um valor diferente do último vertice (Valor inserido pelo usuário)
         while (verify != end) {
+//motor de decisão que verifica se existe um próximo vértice para avançar e por qual caminho deve ir (baseando-se no menor peso)
             if (graph.edge[j].src == verify && graph.edge[j].dest > verify) {
                 if (c == 0 || j == 7) {
                     aux = graph.edge[j].dest;
@@ -86,6 +76,7 @@ class Graph {
                 verify = aux;
             }
         }
+//Decisão do que vai ser exibido para o usuário
         if(fullWeight >= 0) {
             textArea.append("0");
             for (Object o : way) {
@@ -94,6 +85,15 @@ class Graph {
             textArea.append("\n\n\npeso: " + fullWeight);
         }else{
             textArea.append("O Grafo posssui um ciclo negativo!");
+        }
+    }
+
+//Cria o objeto array do grafo
+    class Edge {
+        int src, dest, weight;
+
+        Edge() {
+            src = dest = weight = 0;
         }
     }
 }
