@@ -1,8 +1,9 @@
-package layout.controller;// A Java program for Bellman-Ford's single source shortest path
-// algorithm.
+package layout.controller;
 
 import javax.swing.*;
-
+import java.util.ArrayList;
+import java.util.List;
+//A Classe abaixo usa a lógica para achar o menor caminho em um grafo se baseando em um peso pré-definido de cada aresta e calcula o peso de cada vértice.
 // A class to represent a connected, directed and weighted graph
 class Graph {
     // A class to represent a weighted edge in graph
@@ -13,8 +14,6 @@ class Graph {
             src = dest = weight = 0;
         }
     }
-
-    ;
 
     int V, E;
     Edge edge[];
@@ -31,7 +30,7 @@ class Graph {
     // The main function that finds shortest distances from src
     // to all other vertices using Bellman-Ford algorithm. The
     // function also detects negative weight cycle
-    void BellmanFord(Graph graph, int src, JTextArea textArea) {
+    void BellmanFord(Graph graph, int src, JTextArea textArea, int end) {
         int V = graph.V, E = graph.E;
         int dist[] = new int[V];
 
@@ -53,51 +52,27 @@ class Graph {
                         dist[u] + weight < dist[v]) {
                     dist[v] = dist[u] + weight;
                 }
-                //System.out.println(graph.edge[j].src+"\t\t"+graph.edge[j].dest+"\t\t"+dist[v]);
             }
         }
-
-        // Step 3: check for negative-weight cycles. The above
-        // step guarantees shortest distances if graph doesn't
-        // contain negative weight cycle. If we get a shorter
-        // path, then there is a cycle.
-//        for (int j=0; j<E; ++j)
-//        {
-//            int u = graph.edge[j].src;
-//            int v = graph.edge[j].dest;
-//            int weight = graph.edge[j].weight;
-//            if (dist[u] != Integer.MAX_VALUE &&
-//                    dist[u]+weight < dist[v]){
-//                System.out.println("Graph contains negative weight cycle");
-//                j=E;
-//            }
-//        }
-        printArr(dist, V, graph,textArea);
+        printArr(dist, V, graph,textArea, end);
     }
 
     // A utility function used to print the solution
-    void printArr(int[] dist, int V, Graph graph, JTextArea textArea) {
+    void printArr(int[] dist, int V, Graph graph, JTextArea textArea, int end) {
         int aux = 0, verify = 0, j = 0, c = 0, fullWeight = 0;
-        System.out.println("Vertex Distance from Source");
-//        for (int i = 0; i < V; ++i)
-//            System.out.println(i + "\t\t" + dist[i]);
+        List way = new ArrayList<>();
 
-
-        System.out.print("\n\n 0\t");
-        textArea.append("  0");
-
-        while (verify != graph.edge[7].dest) {
+        while (verify != end) {
             if (graph.edge[j].src == verify && graph.edge[j].dest > verify) {
                 if (c == 0 || j == 7) {
                     aux = graph.edge[j].dest;
                     c++;
-                } else if (dist[aux] > graph.edge[j].weight || graph.edge[j].dest == graph.edge[7].dest) {
+                } else if (dist[aux] > graph.edge[j].weight || graph.edge[j].dest == end) {
                     aux = graph.edge[j].dest;
                 }
 
             } else if (c != 0) {
-                System.out.print("\t===>\t" + aux);
-                textArea.append("\t===>\t" + aux);
+                way.add(aux);
                 fullWeight += graph.edge[j].weight;
                 verify = aux;
                 c = 0;
@@ -106,63 +81,19 @@ class Graph {
             if (j < 7) {
                 j++;
             } else {
-                System.out.print("\t===>\t" + aux);
-                textArea.append("\t===>\t" + aux);
+                way.add(aux);
                 fullWeight += graph.edge[j].weight;
                 verify = aux;
             }
         }
-        System.out.printf("\n\n\npeso: " + fullWeight);
-        textArea.append("\n\n\npeso: " + fullWeight);
+        if(fullWeight >= 0) {
+            textArea.append("0");
+            for (Object o : way) {
+                textArea.append("\t===>\t" + o);
+            }
+            textArea.append("\n\n\npeso: " + fullWeight);
+        }else{
+            textArea.append("O Grafo posssui um ciclo negativo!");
+        }
     }
-
-//    // Driver method to test above function
-//    public static void main(String[] args) {
-//        int V = 5; // Number of vertices in graph
-//        int E = 8; // Number of edges in graph
-//
-//        Graph graph = new Graph(V, E);
-//
-//        // add edge 0-1 (or A-B in above figure)
-//        graph.edge[0].src = 0;
-//        graph.edge[0].dest = 1;
-//        graph.edge[0].weight = -1;
-//
-//        // add edge 0-2 (or A-C in above figure)
-//        graph.edge[1].src = 0;
-//        graph.edge[1].dest = 2;
-//        graph.edge[1].weight = 4;
-//
-//        // add edge 1-2 (or B-C in above figure)
-//        graph.edge[2].src = 1;
-//        graph.edge[2].dest = 2;
-//        graph.edge[2].weight = 3;
-//
-//        // add edge 1-3 (or B-D in above figure)
-//        graph.edge[3].src = 1;
-//        graph.edge[3].dest = 3;
-//        graph.edge[3].weight = 2;
-//
-//        // add edge 1-4 (or A-E in above figure)
-//        graph.edge[4].src = 1;
-//        graph.edge[4].dest = 4;
-//        graph.edge[4].weight = 2;
-//
-//        // add edge 3-2 (or D-C in above figure)
-//        graph.edge[5].src = 3;
-//        graph.edge[5].dest = 2;
-//        graph.edge[5].weight = 5;
-//
-//        // add edge 3-1 (or D-B in above figure)
-//        graph.edge[6].src = 2;
-//        graph.edge[6].dest = 3;
-//        graph.edge[6].weight = 1;
-//
-//        // add edge 4-3 (or E-D in above figure)
-//        graph.edge[7].src = 3;
-//        graph.edge[7].dest = 4;
-//        graph.edge[7].weight = -3;
-//
-//        graph.BellmanFord(graph, 0, textArea);
-//    }
 }

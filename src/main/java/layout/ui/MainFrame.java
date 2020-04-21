@@ -7,6 +7,7 @@ public class MainFrame extends JFrame {
     private JButton buttonAdd;
     private JTextArea textArea;
     private JTextField inputTextSRC;
+    private JLabel labelExplain;
 
     public MainFrame() {
         setSize(650, 500);
@@ -28,5 +29,9 @@ public class MainFrame extends JFrame {
 
     public JTextArea getTextArea() {
         return textArea;
+    }
+
+    public JLabel getLabelExplain() {
+        return labelExplain;
     }
 }
