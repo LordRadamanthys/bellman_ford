@@ -16,7 +16,7 @@ public class MainController {
     private JLabel labelExplain;
     private Graph graph;
     private int V = 5; // Number of vertices in graph
-    private int E = 8; // Number of edges in graph
+    private int E = 9; // Number of edges in graph
 
     //Indica que o código execute as seguintes funções
     public MainController() {
@@ -49,7 +49,7 @@ public class MainController {
 
     //Adicionando as arestas(caminhos entre os vértices), onde src é o vértice emergente, dest é o vértice incidente e weight é o peso de cada aresta, dentro de um Array
     private void loadGraph() {
-        graph.edge[0].src = 0;
+       /* graph.edge[0].src = 0;
         graph.edge[0].dest = 1;
         graph.edge[0].weight = -1;
 
@@ -79,7 +79,43 @@ public class MainController {
 
         graph.edge[7].src = 3;
         graph.edge[7].dest = 4;
-        graph.edge[7].weight = -3;
+        graph.edge[7].weight = -3;*/
+
+        graph.edge[0].src = 0;
+        graph.edge[0].dest = 1;
+        graph.edge[0].weight = 6;
+
+        graph.edge[1].src = 0;
+        graph.edge[1].dest = 2;
+        graph.edge[1].weight = 7;
+
+        graph.edge[2].src = 1;
+        graph.edge[2].dest = 2;
+        graph.edge[2].weight = 8;
+
+        graph.edge[3].src = 2;
+        graph.edge[3].dest = 3;
+        graph.edge[3].weight = -3;
+
+        graph.edge[4].src = 1;
+        graph.edge[4].dest = 4;
+        graph.edge[4].weight = -4;
+
+        graph.edge[5].src = 2;
+        graph.edge[5].dest = 4;
+        graph.edge[5].weight = 9;
+
+        graph.edge[6].src = 1;
+        graph.edge[6].dest = 3;
+        graph.edge[6].weight = 5;
+
+        graph.edge[7].src = 3;
+        graph.edge[7].dest = 1;
+        graph.edge[7].weight = -2;
+
+        graph.edge[8].src = 4;
+        graph.edge[8].dest = 0;
+        graph.edge[8].weight = 2;
     }
 
     //Ação de clique do do botão, quando o botão for pressionado os comandos inseridos dentro do bloco de código são executados
@@ -97,10 +133,10 @@ public class MainController {
             try {
                 end = Integer.parseInt(inputTextSRC.getText());
             } catch (Exception e) {
-                end = 4;
+                end = V-1;
             }
 
-            if(end>4) return;
+            if(end >= V) return;
 
             //Exibe no local indicado qual o valor que o usuário  digitou para ser buscado a aresta
             textArea.append("Ultima aresta = " + end + "\n\n");

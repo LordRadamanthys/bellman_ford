@@ -28,7 +28,7 @@ class Graph {
 //Define o primeiro vertice não infinito.
         dist[src] = 0;
 
-//Loop que relexa as arestas para verificar o caminho mais curto e com o menor peso entre os vértices, apartir do primeiro vértice não infinito
+//Loop que relexa as arestas para verificar o caminho mais curto e com o menor peso entre os vértices, apartir do primeiro vértice não infinito, atribuindo os resulaados a um arrau
         for (int i = 1; i < V; ++i) {
             for (int j = 0; j < E; ++j) {
                 int u = graph.edge[j].src;
@@ -41,50 +41,51 @@ class Graph {
             }
         }
 //Chamando a função que valida o peso total do caminho e o exibe
-        printArr(dist, graph,textArea, end);
+        printArr(dist, graph, V,textArea, end);
     }
 
 //Cria a função que valida se o caminho é negativo, e que exibe ocaminho caso ele seja positivo
-    void printArr(int[] dist, Graph graph, JTextArea textArea, int end) {
+    void printArr(int[] dist, Graph graph,int V, JTextArea textArea, int end) {
 //Cria variaveis
         int aux = 0, verify = 0, j = 0, c = 0, fullWeight = 0;
 //Cria uma lista para armazenar os passos dado do ponto inicial até o último vértice (Valor inserido pelo usuário)
         List way = new ArrayList<>();
+//Exibe o texto na tela
+        textArea.append("Resultado da busca da distância entre os vertices\n\n");
+//Exibe o "peso" de cada vertice baseado na busca da distancia entre eles
+        for (int i = 0; i < V; ++i)
+            textArea.append("\n" + i + "\t\t" + dist[i]);
 //Loop que busca um canho enquanto a variavel de verificação tiver um valor diferente do último vertice (Valor inserido pelo usuário)
-        while (verify != end) {
+        textArea.append("\n\n");
+
 //motor de decisão que verifica se existe um próximo vértice para avançar e por qual caminho deve ir (baseando-se no menor peso)
+        while (verify != end) {
             if (graph.edge[j].src == verify && graph.edge[j].dest > verify) {
-                if (c == 0 || j == 7) {
+                if (dist[aux] > graph.edge[j].weight ||  graph.edge[j].dest == end || c==0) {
                     aux = graph.edge[j].dest;
                     c++;
-                } else if (dist[aux] > graph.edge[j].weight || graph.edge[j].dest == end) {
-                    aux = graph.edge[j].dest;
                 }
-
-            } else if (c != 0) {
-                way.add(aux);
-                fullWeight += graph.edge[j].weight;
-                verify = aux;
-                c = 0;
-                j = 0;
             }
-            if (j < 7) {
+            if (j < (graph.E-1)) {
                 j++;
-            } else {
+            }else{
                 way.add(aux);
                 fullWeight += graph.edge[j].weight;
                 verify = aux;
+                c=0;
+                j=0;
             }
         }
 //Decisão do que vai ser exibido para o usuário
         if(fullWeight >= 0) {
+            textArea.append("O caminho menor e menos pesado\n\n");
             textArea.append("0");
             for (Object o : way) {
                 textArea.append("\t===>\t" + o);
             }
             textArea.append("\n\n\npeso: " + fullWeight);
         }else{
-            textArea.append("O Grafo posssui um ciclo negativo!");
+            textArea.append("\nO Grafo posssui um ciclo negativo!");
         }
     }
 

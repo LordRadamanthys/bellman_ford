@@ -56,8 +56,8 @@ class Graph {
     void printArr(int[] dist, int V, Graph graph) {
         int aux = 0, verify = 0, j = 0, c = 0, fullWeight = 0;
         System.out.println("Vertex Distance from Source");
-//        for (int i = 0; i < V; ++i)
-//            System.out.println(i + "\t\t" + dist[i]);
+        for (int i = 0; i < V; ++i)
+            System.out.println(i + "\t\t" + dist[i]);
 
 
         System.out.print("\n\n 0\t");
