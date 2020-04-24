@@ -40,6 +40,15 @@ class Graph {
                 }
             }
         }
+        for (int j=0; j<E; ++j)
+        {
+            int u = graph.edge[j].src;
+            int v = graph.edge[j].dest;
+            int weight = graph.edge[j].weight;
+            if (dist[u] != Integer.MAX_VALUE &&
+                    dist[u]+weight < dist[v])
+                System.out.println("Graph contains negative weight cycle");
+        }
         printArr(dist, V, graph);
     }
 

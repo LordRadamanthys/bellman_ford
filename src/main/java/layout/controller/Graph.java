@@ -28,7 +28,7 @@ class Graph {
 //Define o primeiro vertice não infinito.
         dist[src] = 0;
 
-//Loop que relexa as arestas para verificar o caminho mais curto e com o menor peso entre os vértices, apartir do primeiro vértice não infinito, atribuindo os resulaados a um arrau
+//Loop que relexa as arestas para verificar o caminho mais curto e com o menor peso entre os vértices, apartir do primeiro vértice não infinito
         for (int i = 1; i < V; ++i) {
             for (int j = 0; j < E; ++j) {
                 int u = graph.edge[j].src;
@@ -40,6 +40,16 @@ class Graph {
                 }
             }
         }
+//Verifica se o grafo possui um ciclo negativo
+  /*      for (int j=0; j<E; ++j)
+        {
+            int u = graph.edge[j].src;
+            int v = graph.edge[j].dest;
+            int weight = graph.edge[j].weight;
+            if (dist[u] != Integer.MAX_VALUE &&
+                    dist[u]+weight < dist[v])
+                textArea.append("Graph contains negative weight cycle");
+        }*/
 //Chamando a função que valida o peso total do caminho e o exibe
         printArr(dist, graph, V,textArea, end);
     }
@@ -47,22 +57,17 @@ class Graph {
 //Cria a função que valida se o caminho é negativo, e que exibe ocaminho caso ele seja positivo
     void printArr(int[] dist, Graph graph,int V, JTextArea textArea, int end) {
 //Cria variaveis
-        int aux = 0, verify = 0, j = 0, c = 0, fullWeight = 0;
+        int aux = 0, verify = 0, j = 0, c = 0, fullWeight = 0, k =0;
 //Cria uma lista para armazenar os passos dado do ponto inicial até o último vértice (Valor inserido pelo usuário)
         List way = new ArrayList<>();
-//Exibe o texto na tela
-        textArea.append("Resultado da busca da distância entre os vertices\n\n");
-//Exibe o "peso" de cada vertice baseado na busca da distancia entre eles
-        for (int i = 0; i < V; ++i)
-            textArea.append("\n" + i + "\t\t" + dist[i]);
-//Loop que busca um canho enquanto a variavel de verificação tiver um valor diferente do último vertice (Valor inserido pelo usuário)
-        textArea.append("\n\n");
 
-//motor de decisão que verifica se existe um próximo vértice para avançar e por qual caminho deve ir (baseando-se no menor peso)
+//Loop que busca um canho enquanto a variavel de verificação tiver um valor diferente do último vertice (Valor inserido pelo usuário)
         while (verify != end) {
+//motor de decisão que verifica se existe um próximo vértice para avançar e por qual caminho deve ir (baseando-se no menor peso)
             if (graph.edge[j].src == verify && graph.edge[j].dest > verify) {
                 if (dist[aux] > graph.edge[j].weight ||  graph.edge[j].dest == end || c==0) {
                     aux = graph.edge[j].dest;
+                    k=j;
                     c++;
                 }
             }
@@ -70,7 +75,7 @@ class Graph {
                 j++;
             }else{
                 way.add(aux);
-                fullWeight += graph.edge[j].weight;
+                fullWeight += graph.edge[k].weight;
                 verify = aux;
                 c=0;
                 j=0;
@@ -78,7 +83,14 @@ class Graph {
         }
 //Decisão do que vai ser exibido para o usuário
         if(fullWeight >= 0) {
-            textArea.append("O caminho menor e menos pesado\n\n");
+//Exibe o texto na tela
+            textArea.append("Resultado da busca da distância entre os vertices\n\n");
+//Mostra na tela as distancias recorrentes do relaxamento das arestas
+            for (int i = 0; i < V; ++i) {
+                textArea.append("\n" + i + "\t\t" + dist[i]);
+            }
+//Exibe o texto na tela
+            textArea.append("\n\nO caminho menor e menos pesado\n\n");
             textArea.append("0");
             for (Object o : way) {
                 textArea.append("\t===>\t" + o);
